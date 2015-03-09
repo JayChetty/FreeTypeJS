@@ -1,7 +1,8 @@
-var Mapper = function(map){
+var Mapper = function(map, callbacks){
   this.keysDown = [false,false,false,false,false];
   this.map = map;
-  this.currentSet = 0
+  this.currentSet = 0;
+  this.callbacks = callbacks;
 }
 
 Mapper.prototype = {
@@ -22,7 +23,13 @@ Mapper.prototype = {
     if(!this.map || !this.map[this.currentSet]){
       return "";
     }
-    return this.map[this.currentSet][keyNum];
+    returnValue = this.map[this.currentSet][keyNum];
+    if(returnValue === "backspace"){
+      this.callbacks["backspace"]();
+      return "";
+    } else{
+      return returnValue;
+    }
   }
 }
 
